@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rspec'
 require_relative '../../lib/website_generator'
 
@@ -12,7 +14,7 @@ RSpec.describe WebsiteGenerator do
   let(:github_cs) { described_class.new('github', 'counter strike') }
 
   context 'shared tests' do
-    random_website_name = %w(youtube github amazon google).sample
+    random_website_name = %w[youtube github amazon google].sample
     random_website = described_class.new(random_website_name, 'boxe francaise')
     it { expect { random_website.url }.not_to raise_error }
     it { expect(random_website.url).to be_a String }
