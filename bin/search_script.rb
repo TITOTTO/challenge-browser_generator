@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../lib/website_generator'
 
 class SearchScript
@@ -20,9 +22,9 @@ class SearchScript
   def ask_confirmation
     p website_url
     p 'Do you confirm the search ?'
-    # TO COMPLETE
+    confirmation = gets.chomp
+    confirmation_input = true if confirmation == 'y'
 
-    # DECLARE VARIABLE BEFORE SO CONDITION WORKS
     return if confirmation_input
 
     error(message: 'You did not confirm search')
@@ -37,39 +39,33 @@ class SearchScript
   end
 
   def website_generator
-    @website_generator ||= WebsiteGenerator.new(ask_site, ask_query)
+    @website_generator ||= WebsiteGenerator.new(@site_input, @query_input)
   end
 
   def ask_site
-    # TO COMPLETE
-    #
+    @site_input = gets.chomp
 
-    # DECLARE VARIABLE BEFORE SO CONDITION WORKS
-    validate_site_input(site_input)
+    validate_site_input(@site_input)
   end
 
   def ask_query
-    # TO COMPLETE
-    #
+    p 'Which search you wanna do ?'
+    @query_input = gets.chomp
 
-    # DECLARE VARIABLE BEFORE SO CONDITION WORKS
-    validate_query_input(query_input)
+    validate_query_input(@query_input)
   end
 
   def validate_query_input(input)
-    # CHANGE NEXT LINE CONDITION (ex: length max / min)
-    return if true
+    return true if input.length < 50
 
-    # CHANGE NEXT LINE MESSAGE TO GIVE MORE INFORMATION ABOUT WRONG INPUT
-    error(message: "quel méchant query input")
+    error(message: 'La recherche ne trouve rien')
   end
 
   def validate_site_input(input)
-    # CHANGE NEXT LINE CONDITION (ex: uniq word, length max min)
-    return if true
+    return true if %w[youtube amazon github google].include?(input)
+    #WebsiteGenerator.VALID_WEBSITES (Je n'ai pas réussi à le faire fonctionner)
 
-    # CHANGE NEXT LINE MESSAGE TO GIVE MORE INFORMATION ABOUT WRONG INPUT
-    error(message: "quel méchant site input")
+    error(message: 'Cela ne fait pas partie des choix disponibles')
   end
 
   def error(message: '')
